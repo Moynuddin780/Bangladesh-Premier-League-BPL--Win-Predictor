@@ -7,12 +7,12 @@ import os
 st.set_page_config(page_title="🏏 BPL Match Win Predictor", layout="centered")
 st.title("🏏 BPL Match Win Predictor")
 
-# Load the trained pipeline
+# ✅ Load the trained pipeline (compatible with sklearn 1.2.2)
 pipe = None
 try:
     if os.path.exists('pipe.pkl'):
         with open('pipe.pkl', 'rb') as f:
-            pipe = pickle.load(f)
+            pipe = pickle.load(f)  # works fine with sklearn==1.2.2
     else:
         st.error("⚠️ Model file `pipe.pkl` not found. Please upload it to the app directory.")
         st.stop()
@@ -20,7 +20,7 @@ except Exception as e:
     st.error(f"⚠️ Failed to load model: {e}")
     st.stop()
 
-# Team and city options
+# 🏏 Teams and Cities
 teams = [
     'Khulna Tigers', 
     'Rangpur Riders', 
@@ -34,7 +34,7 @@ teams = [
 
 cities = ['Dhaka', 'Chattogram', 'Sylhet', 'Khulna', 'Barishal', 'Rajshahi']
 
-# User Inputs
+# 🧾 User Inputs
 col1, col2 = st.columns(2)
 
 with col1:
@@ -49,7 +49,7 @@ current_score = st.number_input("🏏 Current Score", min_value=0, max_value=tar
 overs_completed = st.number_input("⏱️ Overs Completed", min_value=0.0, max_value=20.0, step=0.1, format="%.1f")
 wickets = st.slider("🧍‍♂️ Wickets Lost", 0, 9)
 
-# Prediction Button
+# 🔮 Prediction
 if st.button("🔮 Predict Win Probability"):
     try:
         runs_left = target - current_score
@@ -57,7 +57,7 @@ if st.button("🔮 Predict Win Probability"):
         balls_left = 120 - balls_bowled
 
         if balls_left <= 0:
-            st.error("All overs completed. Can't predict further.")
+            st.error("⚠️ All overs completed. Can't predict further.")
         else:
             crr = (current_score * 6) / balls_bowled if balls_bowled > 0 else 0
             rrr = (runs_left * 6) / balls_left if balls_left > 0 else 0
@@ -83,4 +83,4 @@ if st.button("🔮 Predict Win Probability"):
             st.progress(int(win_prob))
 
     except Exception as e:
-        st.error(f"An error occurred during prediction: {e}")
+        st.error(f"❌ An error occurred during prediction: {e}")
