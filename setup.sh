@@ -1,10 +1,8 @@
-mkdir -p ~/.streamlit/
+#!/bin/bash
+# setup.sh
 
-echo "\
-[server]\n\
-port =$PORT\n\
-enableCORS = false\n\
-headless = true\n\
+# Install Python dependencies
+pip install -r requirements.txt
 
-
-"
+# Optional: Any additional setup commands
+echo "Setup complete!"
